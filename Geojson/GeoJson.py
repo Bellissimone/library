@@ -8,7 +8,7 @@ class Property:
 
 class Geometry:
 
-    def __init__(self, coordinates=None, type=None):
+    def __init__(self, coordinates: any, type: str):
         self.coordinates = coordinates
         self.type = type
 

@@ -81,14 +81,11 @@ class BoundPathGenerator:
             g : geojson che descrive la geometria contenete il vincolo da  non considerare
                 per trovare il cammino minimo tra 2 punti
         """
-        try:
-            if g.type == "feature":
-                pass
-        except ex.GeoJsonTypeError:
-            print("check the geojson type. FeatureCollection is not accepted")
+        if g.type != "Feature":
+            raise ValueError("controlla il (key)type->value del GeoJson: FeatureCollection non valido.")
 
         try:
-            if g.geometry.type not in self.__POLYGON and g.geometry.type not in self.__POINT_STRING:
+            if g.geometry.type in self.__POLYGON or g.geometry.type in self.__POINT_STRING:
                 pass
         except ex.GeoJsonGeometryTypeError:
             print(f"{g.geometry.type} is not a geometry type. check the geojson format")
@@ -125,16 +122,14 @@ class BoundPathGenerator:
             coo1 : prima coordinata
             coo2 : seconda coordinata
         """
-        if coo1 is str:
+        if type(coo1) is str:
             self.__set_start_point_from_address(coo1)
-        if coo1 is tuple:
+        if type(coo1) is tuple:
             self.__set_start_point(coo1)
-        if coo2 is str:
-            self.__set_start_point_from_address(coo2)
-        if coo2 is tuple:
-            self.__set_start_point(coo2)
-        else:
-            raise ValueError("points type value are not accepted: str address or tuple of coordinates")
+        if type(coo2) is str:
+            self.__set_arrive_point_from_address(coo2)
+        if type(coo2) is tuple:
+            self.__set_arrive_point(coo2)
 
     def __get_graph_from_point(self, coo1: tuple, coo2: tuple, mode) -> MultiDiGraph:
         """
@@ -194,8 +189,8 @@ class BoundPathGenerator:
             Returns
             -------
             json(geojson) : è un geojson (www.geojson.org) all'interno del quale nella sezione geometry troviamo
-                            le coordinate che formeranno il cammino minimo tra i 2 punti escluso
-                            il vincolo (polygon, string, point ecc..).
+                            le coordinate che formeranno il cammino minimo tra i 2 punti senza passare per
+                            il vincolo iniziale (polygon, string, point ecc..).
         """
         self.__set_points(coo1, coo2)
         starter_graph = self.__get_graph_from_point(self.__start_point, self.__arrive_point, self.__mode)
