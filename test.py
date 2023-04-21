@@ -38,6 +38,5 @@ constraint = {
                 "type": "Polygon"
             }
         }
-x = b(constraint, b.MODE_CYCLING_ROAD)
-path = x.get_bound_path(coo1, coo2)
-print(path)
+x = b(constraint, b.MODE_CYCLING_ROAD).get_bound_path(coo1, coo2)
+print(x)
