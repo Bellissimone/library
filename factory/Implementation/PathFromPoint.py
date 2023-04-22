@@ -18,20 +18,22 @@ class PathFromPoint(ShortestPathGenerator):
 
     def get_shortest_path(self, g: GeoJson, starter_graph: MultiDiGraph, mode: str, coo1: tuple, coo2: tuple,
                           net_type: str) -> json:
-        point_list = []
-        if g.geometry.type == "point":
-            starter_graph.remove_nodes_from(g.geometry.coordinates)
+        if g.geometry.type == "Point":
+            point = [ox.distance.nearest_nodes(starter_graph, g.geometry.coordinates[0], g.geometry.coordinates[1])]
+            starter_graph.remove_nodes_from(point)
             return self._get_json(g, starter_graph, coo1, coo2)
         elif g.geometry.type == "MultiLineString":
+            multi_point_list = []
             for i in range(len(g.geometry.coordinates)):
                 for j in range(len(g.geometry.coordinates[i])):
-                    point_list.append(ox.distance.nearest_nodes(starter_graph, point_list[i][j][0],
-                                                                point_list[i][j][1]))
-                    starter_graph.remove_nodes_from(point_list)
+                    multi_point_list.append(ox.distance.nearest_nodes(starter_graph, g.geometry.coordinates[i][j][0],
+                                                                      g.geometry.coordinates[i][j][1]))
+                    starter_graph.remove_nodes_from(multi_point_list)
             return self._get_json(g, starter_graph, coo1, coo2)
         else:
+            point_list = []
             for i in range(len(g.geometry.coordinates)):
-                point_list.append(ox.distance.nearest_nodes(starter_graph, point_list[i][0],
-                                                            point_list[i][1]))
+                point_list.append(ox.distance.nearest_nodes(starter_graph, g.geometry.coordinates[i][0],
+                                                            g.geometry.coordinates[i][1]))
                 starter_graph.remove_nodes_from(point_list)
             return self._get_json(g, starter_graph, coo1, coo2)

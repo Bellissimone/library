@@ -59,13 +59,10 @@ class BoundPathGenerator:
         return self.K
 
     def set_constant_for_graph(self, k: float):
-        try:
-            if 1 <= k <= 1.5:
-                self.K = k
-        except ex.ConstantValueError:
-            print("valore inserito troppo grande -> valore corretto compreso tra 1.1 e 1.5")
+        if 1 <= k <= 1.5:
+            self.K = k
         else:
-            print("value accepted")
+            raise ex.ConstantValueError("valore inserito troppo grande -> valore corretto compreso tra 1.1 e 1.5")
 
     def __check_geojson_parameter(self, g: GeoJson):
         """
@@ -82,13 +79,10 @@ class BoundPathGenerator:
                 per trovare il cammino minimo tra 2 punti
         """
         if g.type != "Feature":
-            raise ValueError("controlla il (key)type->value del GeoJson: FeatureCollection non valido.")
+            raise ex.GeoJsonTypeError("controlla il (key)type->value del GeoJson: FeatureCollection non valido.")
 
-        try:
-            if g.geometry.type in self.__POLYGON or g.geometry.type in self.__POINT_STRING:
-                pass
-        except ex.GeoJsonGeometryTypeError:
-            print(f"{g.geometry.type} is not a geometry type. check the geojson format")
+        if g.geometry.type not in self.__POLYGON and g.geometry.type not in self.__POINT_STRING:
+            raise ex.GeoJsonGeometryTypeError(f"{g.geometry.type} is not a geometry type. check the geojson format")
 
     # set methods for points values
     def __set_start_point(self, coordinate: tuple):
@@ -124,12 +118,16 @@ class BoundPathGenerator:
         """
         if type(coo1) is str:
             self.__set_start_point_from_address(coo1)
-        if type(coo1) is tuple:
+        elif type(coo1) is tuple:
             self.__set_start_point(coo1)
+        else:
+            raise ex.AddressValueError("Tipo della prima coordinata errato. Tipi validi: Tupla o Stringa")
         if type(coo2) is str:
             self.__set_arrive_point_from_address(coo2)
-        if type(coo2) is tuple:
+        elif type(coo2) is tuple:
             self.__set_arrive_point(coo2)
+        else:
+            raise ex.AddressValueError("Tipo della seconda coordinata errato. Tipi validi: Tupla o Stringa")
 
     def __get_graph_from_point(self, coo1: tuple, coo2: tuple, mode) -> MultiDiGraph:
         """

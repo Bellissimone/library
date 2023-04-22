@@ -19,7 +19,7 @@ class Geometry:
         return self.type
 
     def set_coords(self, coordinates: list):
-        self.coordinates[0] = coordinates
+        self.coordinates = coordinates
 
     def set_type(self, type: str):
         self.type = type
