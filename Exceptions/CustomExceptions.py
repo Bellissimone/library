@@ -1,3 +1,9 @@
+"""
+    File utilizzato per la creazione di errori custom che serviranno per
+    il controllo dei tipi di dati passati al metodo principale per trovare lo shortest path.
+"""
+
+
 class GeoJsonTypeError(Exception):
     """ Quando il valore type del GeoJson non corrisponde a feature viene lanciato l'errore """
     pass

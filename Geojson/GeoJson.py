@@ -1,5 +1,9 @@
 import json
 
+"""
+    File creato per mappare il GeoJson contenete il vincolo da non considerare per trovare lo shortest path
+"""
+
 
 class Property:
     def __init__(self):
