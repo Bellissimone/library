@@ -90,7 +90,6 @@ class BoundPathGenerator:
 
     def __set_start_point_from_address(self, address: str):
         self.__start_point = self.__call.get_coordinates_from_address(address)
-        print(self.__start_point)
 
     def __set_arrive_point(self, coordinate: tuple):
         self.__arrive_point = coordinate
@@ -194,8 +193,8 @@ class BoundPathGenerator:
         self.__set_points(coo1, coo2)
         starter_graph = self.__get_graph_from_point(self.__start_point, self.__arrive_point, self.__mode)
         if self.__geojson.geometry.type in self.__POLYGON:
-            return PathFromPolygon().get_shortest_path(self.__geojson, starter_graph, self.__mode, coo1, coo2,
-                                                       self.__NET_TYPE[self.__mode])
+            return PathFromPolygon().get_shortest_path(self.__geojson, starter_graph, self.__mode, self.__start_point,
+                                                       self.__arrive_point, self.__NET_TYPE[self.__mode])
         else:
-            return PathFromPoint().get_shortest_path(self.__geojson, starter_graph, self.__mode, coo1, coo2,
-                                                     self.__NET_TYPE[self.__mode])
+            return PathFromPoint().get_shortest_path(self.__geojson, starter_graph, self.__mode, self.__start_point,
+                                                     self.__arrive_point, self.__NET_TYPE[self.__mode])
