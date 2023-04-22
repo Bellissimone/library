@@ -1,7 +1,7 @@
 from BoundPathGenerator import BoundPathGenerator as b
 
-coo1 = (14.400661192897076, 42.35357837926156)
-coo2 = (14.40351680101557, 42.3477491223768)
+coo1 = "Via Don Giovanni Bosco, 13, Ortona, CH"
+coo2 = (14.400661192897076, 42.35357837926156)
 constraint_polygon = {
       "type": "Feature",
       "properties": {},

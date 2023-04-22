@@ -90,6 +90,7 @@ class BoundPathGenerator:
 
     def __set_start_point_from_address(self, address: str):
         self.__start_point = self.__call.get_coordinates_from_address(address)
+        print(self.__start_point)
 
     def __set_arrive_point(self, coordinate: tuple):
         self.__arrive_point = coordinate
