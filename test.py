@@ -2,6 +2,7 @@ from BoundPathGenerator import BoundPathGenerator as b
 
 coo1 = "Via Don Giovanni Bosco, 13, Ortona, CH"
 coo2 = (14.400661192897076, 42.35357837926156)
+# MultiPoint è come se fosse una linestring
 constraint_polygon = {
       "type": "Feature",
       "properties": {},
@@ -56,7 +57,6 @@ constraint_point = {
         "type": "Point"
     }
 }
-# MultiPoint è come se fosse una linestring
 constraint_line_string = {
       "type": "Feature",
       "properties": {},
@@ -348,3 +348,223 @@ constraint_geometry_type_value_error = {
     }
 x = b(constraint_multi_line_string, b.MODE_FOOT_WALKING).get_bound_path(coo1, coo2)
 print(x)
+
+# Questo constraint è da inserire sul sito "https://geojson.io/#map=15.62/42.350573/14.402255" per vedere i vincoli
+# passati come parametri al metodo che calcola lo shortest path. Bisogna includere le parentesi graffe.
+GeoJsonConstraint = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#00ffaa",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "fill": "#c6ffc2",
+        "fill-opacity": 0.5
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              14.403314085890884,
+              42.35182460310196
+            ],
+            [
+              14.40217779683249,
+              42.35110148720307
+            ],
+            [
+              14.40308261960115,
+              42.34985739737226
+            ],
+            [
+              14.4049553923075,
+              42.349305324621525
+            ],
+            [
+              14.406165329730186,
+              42.35004401241645
+            ],
+            [
+              14.405891778660816,
+              42.35168464583509
+            ],
+            [
+              14.404366205388925,
+              42.35219004560642
+            ],
+            [
+              14.403314085890884,
+              42.35182460310196
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#ff00dd",
+        "stroke-width": 2,
+        "stroke-opacity": 1
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            14.402126182585562,
+            42.34980500271112
+          ],
+          [
+            14.402288699310077,
+            42.3503414797016
+          ],
+          [
+            14.403036276243768,
+            42.35022137331049
+          ],
+          [
+            14.40329630300289,
+            42.3509420082149
+          ],
+          [
+            14.403848859866457,
+            42.350917987184204
+          ],
+          [
+            14.404043879936523,
+            42.35126228774237
+          ],
+          [
+            14.404173893316539,
+            42.35150249631758
+          ],
+          [
+            14.404650609041681,
+            42.35158256563841
+          ],
+          [
+            14.405008145836206,
+            42.351590572565044
+          ],
+          [
+            14.405604040493841,
+            42.3513263434524
+          ],
+          [
+            14.40552819935533,
+            42.3509340012057
+          ]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#ff932e",
+        "stroke-width": 2,
+        "stroke-opacity": 1
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            14.401391321945056,
+            42.350470692864434
+          ],
+          [
+            14.401034834496613,
+            42.35050972363118
+          ],
+          [
+            14.401180070123786,
+            42.35112445501278
+          ],
+          [
+            14.40028224988373,
+            42.351280576311126
+          ],
+          [
+            14.400361469316863,
+            42.35170990788225
+          ]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#1100ff",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "fill": "#63c3f2",
+        "fill-opacity": 0.5
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              14.40016428259321,
+              42.35022600736528
+            ],
+            [
+              14.399504120651358,
+              42.349767392253625
+            ],
+            [
+              14.400177485832245,
+              42.34883063609587
+            ],
+            [
+              14.401352574087639,
+              42.348850151991826
+            ],
+            [
+              14.402237191088687,
+              42.34965029849715
+            ],
+            [
+              14.40165624857994,
+              42.35053825403739
+            ],
+            [
+              14.40016428259321,
+              42.35022600736528
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#ff0000",
+        "marker-size": "medium"
+      },
+      "geometry": {
+        "coordinates": [
+          14.404063412363968,
+          42.34798151882151
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#0916d3",
+        "marker-size": "medium"
+      },
+      "geometry": {
+        "coordinates": [
+          14.400661192897076,
+          42.35357837926156
+        ],
+        "type": "Point"
+      }
+    }
+  ]
+}
