@@ -45,7 +45,7 @@ class PathFromPolygon(ShortestPathGenerator):
         return g.create_json()
 
     @staticmethod
-    def _get_constraint_graph(g: GeoJson, net_type: str) -> MultiDiGraph:
+    def _get_polygons_constraint(g: GeoJson, net_type: str) -> list:
         """
             Metodo che preso il vincolo all'interno del GeoJson lo trasforma in un grafo.
             Questo metodo viene chiamato dal metodo get_shortest_path:
@@ -61,11 +61,16 @@ class PathFromPolygon(ShortestPathGenerator):
             -------
             MultiDiGraph: Vincolo sotto forma di grafo
         """
-        constraint_graph = []
-        for p in g.geometry.coordinates[0]:
-            constraint_graph.append(geometry.Point(p))
-        polygon_constraint = geometry.Polygon([[p.x, p.y] for p in constraint_graph])
-        return ox.graph_from_polygon(polygon_constraint, network_type=net_type)
+        polygons = []
+        for i in range(len(g.geometry.coordinates)):
+            polygon_constraint = []
+            constraint_points = []
+            for p in g.geometry.coordinates[i]:
+                constraint_points.append(geometry.Point(p))
+            polygon_constraint = geometry.Polygon([[p.x, p.y] for p in constraint_points])
+            polygons.append(ox.graph_from_polygon(polygon_constraint, network_type=net_type))
+
+        return polygons
 
     def get_shortest_path(self, g: GeoJson, starter_graph: MultiDiGraph, mode: str, coo1: tuple, coo2: tuple,
                           net_type: str) -> json:
@@ -97,6 +102,7 @@ class PathFromPolygon(ShortestPathGenerator):
             -------
             Json: GeoJson all'interno del quale troviamo il percorso ottimo tra i due punti sulla mappa
         """
-        constraint_graph = self._get_constraint_graph(g, net_type)
-        starter_graph.remove_nodes_from(n for n in constraint_graph if n in starter_graph)
+        polygons_constraint = self._get_polygons_constraint(g, net_type)
+        for polygon in polygons_constraint:
+            starter_graph.remove_nodes_from(n for n in polygon if n in starter_graph)
         return self._get_json_shortest_path(g, starter_graph, coo1, coo2)
