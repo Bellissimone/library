@@ -346,5 +346,5 @@ constraint_geometry_type_value_error = {
         "type": "Circle"
       }
     }
-x = b(constraint_multi_line_string, b.MODE_CYCLING_ROAD).get_bound_path(coo1, coo2)
+x = b(constraint_multi_line_string, b.MODE_FOOT_WALKING).get_bound_path(coo1, coo2)
 print(x)
