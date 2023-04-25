@@ -38,7 +38,7 @@ class PathFromPoint(ShortestPathGenerator):
         shortest_p = plt.subplots()
         plt.show()
         # --------------------------------------------------------------------------------------------------------
-        g.geometry.set_coords(shortest_path)
+        g.geometry.set_coords([[new_graph.nodes[node]["x"], new_graph.nodes[node]["y"]] for node in shortest_path])
         g.geometry.set_type("LineString")
         return g.create_json()
 

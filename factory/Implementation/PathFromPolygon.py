@@ -40,7 +40,7 @@ class PathFromPolygon(ShortestPathGenerator):
         shortest_p = plt.subplots()
         plt.show()
         # --------------------------------------------------------------------------------------------------------
-        g.geometry.set_coords(shortest_path)
+        g.geometry.set_coords([[new_graph.nodes[node]["x"], new_graph.nodes[node]["y"]] for node in shortest_path])
         g.geometry.set_type("LineString")
         return g.create_json()
 
@@ -48,9 +48,8 @@ class PathFromPolygon(ShortestPathGenerator):
     def _get_polygons_constraint(g: GeoJson, net_type: str) -> list:
         """
             Metodo che preso il vincolo all'interno del GeoJson lo trasforma in un grafo.
-            Questo metodo viene chiamato dal metodo get_shortest_path:
-                il grafo creato da questo metodo verrà utilizzato percercare il cammino minimo dal metodo
-                 get_json_shortest_path
+            Questo metodo viene chiamato da get_shortest_path:
+                il grafo creato verrà utilizzato per cercare il cammino minimo da get_json_shortest_path
 
             Parameters
             ----------
@@ -63,12 +62,11 @@ class PathFromPolygon(ShortestPathGenerator):
         """
         polygons = []
         for i in range(len(g.geometry.coordinates)):
-            polygon_constraint = []
             constraint_points = []
             for p in g.geometry.coordinates[i]:
                 constraint_points.append(geometry.Point(p))
-            polygon_constraint = geometry.Polygon([[p.x, p.y] for p in constraint_points])
-            polygons.append(ox.graph_from_polygon(polygon_constraint, network_type=net_type))
+            polygons.append(ox.graph_from_polygon(geometry.Polygon([[p.x, p.y] for p in constraint_points]),
+                                                  network_type=net_type))
 
         return polygons
 
