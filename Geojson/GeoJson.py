@@ -57,10 +57,12 @@ class GeoJson:
     def set_property(self, p: Property):
         self.property = p
 
-    def create_json(self):
+    def create_json(self, net_type: str):
         geo_dict = {
             "type": self.type,
-            "properties": {},
+            "properties": {
+                "type_net": net_type
+            },
             "geometry": {
                 "coordinates": self.geometry.coordinates,
                 "type": "LineString"
