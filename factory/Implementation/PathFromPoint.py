@@ -10,7 +10,7 @@ from Geojson.GeoJson import GeoJson
 class PathFromPoint(ShortestPathGenerator):
 
     @staticmethod
-    def _get_json(g: GeoJson, new_graph: MultiDiGraph, coo1: tuple, coo2: tuple) -> json:
+    def _get_json(g: GeoJson, new_graph: MultiDiGraph, coo1: tuple, coo2: tuple, net_type: str) -> json:
         """
             Metodo che preso il grafo senza vincolo, calcola il percorso migliore che collega il punto di partenza
             con il punto di arrivo e restituisce tutti i nodi del percorso sulla mappa sotto forma di json
@@ -40,7 +40,7 @@ class PathFromPoint(ShortestPathGenerator):
         # --------------------------------------------------------------------------------------------------------
         g.geometry.set_coords([[new_graph.nodes[node]["x"], new_graph.nodes[node]["y"]] for node in shortest_path])
         g.geometry.set_type("LineString")
-        return g.create_json()
+        return g.create_json(net_type)
 
     def get_shortest_path(self, g: GeoJson, starter_graph: MultiDiGraph, mode: str, coo1: tuple, coo2: tuple,
                           net_type: str) -> json:
@@ -78,7 +78,7 @@ class PathFromPoint(ShortestPathGenerator):
         if g.geometry.type == "Point":
             point = [ox.distance.nearest_nodes(starter_graph, g.geometry.coordinates[0], g.geometry.coordinates[1])]
             starter_graph.remove_nodes_from(point)
-            return self._get_json(g, starter_graph, coo1, coo2)
+            return self._get_json(g, starter_graph, coo1, coo2, net_type)
         elif g.geometry.type == "MultiLineString":
             multi_point_list = []
             for i in range(len(g.geometry.coordinates)):
@@ -86,11 +86,11 @@ class PathFromPoint(ShortestPathGenerator):
                     multi_point_list.append(ox.distance.nearest_nodes(starter_graph, g.geometry.coordinates[i][j][0],
                                                                       g.geometry.coordinates[i][j][1]))
                     starter_graph.remove_nodes_from(multi_point_list)
-            return self._get_json(g, starter_graph, coo1, coo2)
+            return self._get_json(g, starter_graph, coo1, coo2, net_type)
         else:
             point_list = []
             for i in range(len(g.geometry.coordinates)):
                 point_list.append(ox.distance.nearest_nodes(starter_graph, g.geometry.coordinates[i][0],
                                                             g.geometry.coordinates[i][1]))
                 starter_graph.remove_nodes_from(point_list)
-            return self._get_json(g, starter_graph, coo1, coo2)
+            return self._get_json(g, starter_graph, coo1, coo2, net_type)

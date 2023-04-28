@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 class PathFromPolygon(ShortestPathGenerator):
 
     @staticmethod
-    def _get_json_shortest_path(g: GeoJson, new_graph: MultiDiGraph, coo1: tuple, coo2: tuple) -> json:
+    def _get_json_shortest_path(g: GeoJson, new_graph: MultiDiGraph, coo1: tuple, coo2: tuple, net_type: str) -> json:
         """
             Metodo statico chiamato dal metodo principale get_shortest_path.
             Preso il grafo senza vincolo, calcola il percorso migliore che collega il punto di partenza
@@ -42,7 +42,7 @@ class PathFromPolygon(ShortestPathGenerator):
         # --------------------------------------------------------------------------------------------------------
         g.geometry.set_coords([[new_graph.nodes[node]["x"], new_graph.nodes[node]["y"]] for node in shortest_path])
         g.geometry.set_type("LineString")
-        return g.create_json()
+        return g.create_json(net_type)
 
     @staticmethod
     def _get_polygons_constraint(g: GeoJson, net_type: str) -> list:
@@ -103,4 +103,4 @@ class PathFromPolygon(ShortestPathGenerator):
         polygons_constraint = self._get_polygons_constraint(g, net_type)
         for polygon in polygons_constraint:
             starter_graph.remove_nodes_from(n for n in polygon if n in starter_graph)
-        return self._get_json_shortest_path(g, starter_graph, coo1, coo2)
+        return self._get_json_shortest_path(g, starter_graph, coo1, coo2, net_type)
