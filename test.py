@@ -334,7 +334,7 @@ constraint_geometry_type_value_error = {
         "type": "Circle"
       }
     }
-        
+
 x = b(constraint_line_string, b.MODE_DRIVING_CAR).get_bound_path(coo1, coo2)
 print(x)
 
