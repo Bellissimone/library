@@ -1,5 +1,9 @@
 import json
 
+"""
+    File creato per mappare il GeoJson contenete il vincolo da non considerare per trovare lo shortest path
+"""
+
 
 class Property:
     def __init__(self):
@@ -8,7 +12,7 @@ class Property:
 
 class Geometry:
 
-    def __init__(self, coordinates=None, type=None):
+    def __init__(self, coordinates: any, type: str):
         self.coordinates = coordinates
         self.type = type
 
@@ -19,7 +23,7 @@ class Geometry:
         return self.type
 
     def set_coords(self, coordinates: list):
-        self.coordinates[0] = coordinates
+        self.coordinates = coordinates
 
     def set_type(self, type: str):
         self.type = type
@@ -56,7 +60,7 @@ class GeoJson:
     def create_json(self):
         geo_dict = {
             "type": self.type,
-            "properties": "no properties",
+            "properties": {},
             "geometry": {
                 "coordinates": self.geometry.coordinates,
                 "type": "LineString"
