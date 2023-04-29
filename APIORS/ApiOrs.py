@@ -1,5 +1,9 @@
 import requests
 from shapely import geometry
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 class ApiOrs:
@@ -9,10 +13,9 @@ class ApiOrs:
         il cammino minimo tra due punti.
     """
 
-    def __init__(self, host: str = "https://api.openrouteservice.org",
-                 key: str = "5b3ce3597851110001cf6248c7ba14a31dbc49eb812e3b04d387f59f"):
-        self.__host = host
-        self.__key = key
+    def __init__(self):
+        self.__host = os.getenv("HOST")
+        self.__key = os.getenv("KEY")
 
     def __auth(self) -> dict:
         auth = {
