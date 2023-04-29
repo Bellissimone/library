@@ -335,7 +335,7 @@ constraint_geometry_type_value_error = {
       }
     }
 
-x = b(constraint_line_string, b.MODE_WHEELCHAIR).get_bound_path(coo1, coo2)
+x = b(constraint_multi_polygon, b.MODE_DRIVING_CAR).get_bound_path(coo1, coo2)
 print(x)
 
 # Questo constraint è da inserire sul sito "https://geojson.io/#map=15.62/42.350573/14.402255" per vedere i vincoli
