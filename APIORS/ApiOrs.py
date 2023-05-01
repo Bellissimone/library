@@ -1,9 +1,5 @@
 import requests
 from shapely import geometry
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
 
 
 class ApiOrs:
@@ -13,9 +9,9 @@ class ApiOrs:
         il cammino minimo tra due punti.
     """
 
-    def __init__(self):
-        self.__host = os.getenv("HOST")
-        self.__key = os.getenv("KEY")
+    def __init__(self, host, key):
+        self.__host = host
+        self.__key = key
 
     def __auth(self) -> dict:
         auth = {
