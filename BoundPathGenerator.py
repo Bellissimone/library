@@ -7,8 +7,6 @@ from APIORS.ApiOrs import ApiOrs as call
 from shapely import geometry
 from factory.Implementation.PathFromPoint import PathFromPoint
 from factory.Implementation.PathFromPolygon import PathFromPolygon
-from dotenv import load_dotenv
-import os
 
 
 class BoundPathGenerator:
@@ -54,28 +52,11 @@ class BoundPathGenerator:
         self.__geojson = GeoJson(g)
         self.__start_point = None
         self.__arrive_point = None
-        self.__call = self.set_api_parameters(host, key)
+        self.__call = call(host, key)
         self.__check_geojson_parameter(self.__geojson)
 
-    @staticmethod
-    def set_api_parameters(host: str, key: str) -> call:
-        os.environ["HOST"] = host
-        os.environ["KEY"] = key
-        return call(host, key)
-
-    def set_endpoint(self, host: str):
-        load_dotenv()
-        os.environ["HOST"] = host
-        self.__call = call(host, os.environ["KEY"])
-
-    def set_key(self, key):
-        load_dotenv()
-        os.environ["KEY"] = key
-        self.__call = call(os.environ["HOST"], key)
-
-    @staticmethod
-    def get_endpoint() -> str:
-        return os.environ["HOST"]
+    def set_endpoint_key(self, host, key):
+        self.__call = call(host, key)
 
     def get_constant_for_graph(self) -> float:
         return self.K
