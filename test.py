@@ -1,5 +1,7 @@
 from BoundPathGenerator import BoundPathGenerator as b
 
+host = "https://api.openrouteservice.org"
+key = "5b3ce3597851110001cf6248c7ba14a31dbc49eb812e3b04d387f59f"
 coo1 = "Via Don Giovanni Bosco, 13, Ortona, CH"
 coo2 = (14.400661192897076, 42.35357837926156)
 # MultiPoint è come se fosse una linestring
@@ -335,7 +337,7 @@ constraint_geometry_type_value_error = {
       }
     }
 
-x = b(constraint_multi_polygon, b.MODE_FOOT_WALKING).get_bound_path(coo1, coo2)
+x = b(constraint_multi_polygon, b.MODE_FOOT_WALKING, host, key).get_bound_path(coo1, coo2)
 print(x)
 
 # Questo constraint è da inserire sul sito "https://geojson.io/#map=15.62/42.350573/14.402255" per vedere i vincoli

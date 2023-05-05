@@ -35,7 +35,7 @@ class BoundPathGenerator:
         "cycling-electric": "bike",
     }
 
-    K = 1.2
+    K = 1.1
 
     MODE_DRIVING_CAR = "driving-car"
     MODE_DRIVING_HGV = "driving-hgv"
@@ -47,13 +47,16 @@ class BoundPathGenerator:
     MODE_CYCLING_MOUNTAIN = "cycling-mountain"
     MODE_CYCLING_ELECTRIC = "cycling-electric"
 
-    def __init__(self, g: json, mode: str):
-        self.__call = call()
+    def __init__(self, g: json, mode: str, host: str, key: str):
         self.__mode = mode
         self.__geojson = GeoJson(g)
         self.__start_point = None
         self.__arrive_point = None
+        self.__call = call(host, key)
         self.__check_geojson_parameter(self.__geojson)
+
+    def set_endpoint_key(self, host, key):
+        self.__call = call(host, key)
 
     def get_constant_for_graph(self) -> float:
         return self.K
